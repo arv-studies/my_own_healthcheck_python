@@ -20,39 +20,53 @@ def check_pod_status(namespace, pod_name):
                 sleeptime = 30
                 pod_status = v1.read_namespaced_pod_status(
                     name=pod_name, namespace=namespace)
+                pod = v1.read_namespaced_pod(
+                    name=pod_name, namespace=namespace)
+                pod_age = pod.metadata.creation_timestamp
+                total_containers = len(pod.spec.containers)
+                containers_ready = sum(
+                    1 for status in pod.status.container_statuses if status.ready)
                 colrTime = colored(f"{bold_start}{time.ctime()}{bold_end}",
                                    "yellow", attrs=["bold"])
                 colrPod_name = colored(f"{bold_start}{pod_name}{bold_end}",
                                        "green", attrs=["bold"])
                 colrNamespace = colored(f"{bold_start}{namespace}{bold_end}",
                                         "green", attrs=["bold"])
-                start = f"***************** Statuses at {colrTime} for {colrPod_name} in namespace {colrNamespace} *******************"
+                start = f"***************** Pod Statuses at {colrTime} for {colrPod_name} in namespace {colrNamespace} *******************"
                 logger.info(start)
                 file.write(f"{start}\n")
-                phase = f"Status phase  is {bold_start}{pod_status.status.phase}{bold_end}"
+                phase = f"Status : {bold_start}{pod_status.status.phase}{bold_end}"
                 logger.info(phase)
                 file.write(f"{phase}\n")
-                type = f"Status type  is {bold_start}{pod_status.status.conditions[0].type}{bold_end}"
-                logger.info(type)
-                file.write(f"{type}\n")
+                podAge = f"Pod Age : {bold_start}{pod_age}{bold_end}"
+                logger.info(podAge)
+                file.write(f"{podAge}\n")
+                containerReady = f"Containers Readiness : {bold_start}{containers_ready}/{total_containers}{bold_end}"
+                logger.info(containerReady)
+                file.write(f"{containerReady}\n")
+                # type = f"Status type  is {bold_start}{pod_status.status.conditions[0].type}{bold_end}"
+                # logger.info(type)
+                # file.write(f"{type}\n")
                 container_statuses = pod_status.status.container_statuses
+                count = 0
                 for container in container_statuses:
-                    startStr = f"<---------------------- Container Statuses [Start] ----------------------------->"
+                    count += 1
+                    startStr = f"<---------------------- Container {count} Details [Start] ----------------------------->"
                     logger.info(startStr)
                     file.write(f"{startStr}\n")
+                    name = f"Container name : {bold_start}{container.name}{bold_end}"
+                    logger.info(name)
+                    file.write(f"{name}\n")
                     id = f"Container container_id : {bold_start}{container.container_id}{bold_end}"
                     logger.info(id)
                     file.write(f"{id}\n")
                     image = f"Container image : {bold_start}{container.image}{bold_end}"
                     logger.info(image)
                     file.write(f"{image}\n")
-                    name = f"Container name : {bold_start}{container.name}{bold_end}"
-                    logger.info(name)
-                    file.write(f"{name}\n")
                     restart_count = f"Container restart_count : {bold_start}{container.restart_count}{bold_end}"
                     logger.info(restart_count)
                     file.write(f"{restart_count}\n")
-                    endStr = f"<---------------------- Container Statuses [End] ----------------------------->\n"
+                    endStr = f"<---------------------- Container {count} Details [End] ----------------------------->\n"
                     logger.info(endStr)
                     file.write(f"{endStr}\n")
                 end = f"***************** Sleeping for {bold_start}{sleeptime}{bold_end} seconds *******************\n"

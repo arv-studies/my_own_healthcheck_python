@@ -25,7 +25,7 @@ metadata:
 spec:
   containers:
     - name: myhealthcheck-container
-      image: arunvariyath/my_healthcheck:0.0.24
+      image: arunvariyath/my_healthcheck:0.0.25
       command: ["/bin/bash", "-c"]
       args:
         - |
