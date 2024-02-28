@@ -1,1 +1,4 @@
 kubernetes
+argparse
+pyfiglet
+termcolor
