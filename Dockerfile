@@ -11,10 +11,10 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the startup script into the container
-COPY startup_script.py /app/startup_script.py
+# COPY startup_script.py /app/startup_script.py
 
 # Copy the Python script into the container
-COPY healthcheck_script.py /app/healthcheck_script.py
+COPY *.py /app/
 
 # Run the Python script when the container launches
 CMD ["python", "startup_script.py"]

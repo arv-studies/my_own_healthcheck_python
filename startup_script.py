@@ -8,10 +8,10 @@ def create_ascii_art(text):
         text = "WELCOME"
     ascii_art = pyfiglet.figlet_format(text, font='ansi_shadow')
     startup = pyfiglet.figlet_format('Starting Up .......', font='big')
-    texttoPrint1 = colored(f"{ascii_art}\n", "green", attrs=["bold"])
+    texttoPrint1 = colored(f"{ascii_art}\n", "white", attrs=["bold"])
     texttoPrint2 = colored(f"{startup}\n", "red", attrs=["bold"])
 
-    with open('/var/log/paj_logs/health_check.log', 'w') as f:
+    with open("/var/log/error.log", "w") as f:
         f.write(texttoPrint1+texttoPrint2)
         print(texttoPrint1+texttoPrint2)
 
