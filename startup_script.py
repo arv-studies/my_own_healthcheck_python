@@ -11,7 +11,7 @@ def create_ascii_art(text):
     texttoPrint1 = colored(f"{ascii_art}\n", "white", attrs=["bold"])
     texttoPrint2 = colored(f"{startup}\n", "red", attrs=["bold"])
 
-    with open("/var/log/error.log", "w") as f:
+    with open("/var/log/healthcheck_arv.log", "w") as f:
         f.write(texttoPrint1+texttoPrint2)
         print(texttoPrint1+texttoPrint2)
 

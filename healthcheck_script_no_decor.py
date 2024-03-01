@@ -13,7 +13,7 @@ def check_pod_status(namespace, pod_name):
     try:
         namespace = get_default_ns(namespace)
         while True:
-            with open("/var/log/error.log", "a") as file:
+            with open("/var/log/healthcheck_arv.log", "a") as file:
                 sleeptime = 30
                 pod_status = v1.read_namespaced_pod_status(
                     name=pod_name, namespace=namespace
